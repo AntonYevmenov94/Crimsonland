@@ -16,7 +16,7 @@ int Position::getY()
 	return y;
 }
 
-void Position::movePosition(int x, int y)
+void Position::changePosition(int x, int y)
 {
 	this->x += x;
 	this->y += y;
