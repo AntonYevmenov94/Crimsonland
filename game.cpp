@@ -6,7 +6,6 @@
 /* Test Framework realization */
 class MyFramework : public Framework {
 	
-	Player* player;
 public:
 
 	virtual void PreInit(int& width, int& height, bool& fullscreen)
@@ -18,7 +17,6 @@ public:
 
 	virtual bool Init() 
 	{
-		player = new Player(800, 600, 10, 1);
 		return true;
 	}
 
@@ -30,7 +28,6 @@ public:
 	virtual bool Tick() 
 	{
         drawTestBackground();
-		drawSprite(player->getSprite(), player->getPosition()->getX(), player->getPosition()->getY());
 		return false;
 	}
 
@@ -46,7 +43,7 @@ public:
 
 	virtual void onKeyPressed(FRKey k) 
 	{
-		player->Move(k);
+
 	}
 
 	virtual void onKeyReleased(FRKey k) 

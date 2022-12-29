@@ -8,6 +8,6 @@ public:
 	int getX();
 	int getY();
 
-	void movePosition(int x, int y);
+	void changePosition(int x, int y);
 };
 
