@@ -1,11 +1,11 @@
 
 #include "Framework.h"
-#include "Player.h"
 #include <Windows.h>
+#include "Bullet.h"
 
 /* Test Framework realization */
 class MyFramework : public Framework {
-	
+	Bullet* b;
 public:
 
 	virtual void PreInit(int& width, int& height, bool& fullscreen)
@@ -17,6 +17,7 @@ public:
 
 	virtual bool Init() 
 	{
+		b = new Bullet(400, 300, 1);
 		return true;
 	}
 
@@ -28,6 +29,7 @@ public:
 	virtual bool Tick() 
 	{
         drawTestBackground();
+		drawSprite(b->getSprite(), b->getPosition()->getX(), b->getPosition()->getY());
 		return false;
 	}
 

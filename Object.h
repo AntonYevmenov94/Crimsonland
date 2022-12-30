@@ -10,6 +10,8 @@ protected:
 	Position* position;
 public:
 
+	Position* getPosition();
+
 	Sprite* getSprite();
 };
 
