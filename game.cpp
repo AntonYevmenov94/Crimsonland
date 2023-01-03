@@ -2,10 +2,13 @@
 #include "Framework.h"
 #include <Windows.h>
 #include "Bullet.h"
+#include <iostream>
 
 /* Test Framework realization */
 class MyFramework : public Framework {
 	Bullet* b;
+	Position cursor;
+	int k = 0;
 public:
 
 	virtual void PreInit(int& width, int& height, bool& fullscreen)
@@ -17,7 +20,6 @@ public:
 
 	virtual bool Init() 
 	{
-		b = new Bullet(400, 300, 1);
 		return true;
 	}
 
@@ -28,19 +30,27 @@ public:
 
 	virtual bool Tick() 
 	{
-        drawTestBackground();
-		drawSprite(b->getSprite(), b->getPosition()->getX(), b->getPosition()->getY());
+		drawTestBackground();
+		if (b != nullptr)
+		{
+			drawSprite(b->getSprite(), b->getPosition()->getX(), b->getPosition()->getY());
+			b->Move();
+		}
 		return false;
 	}
 
 	virtual void onMouseMove(int x, int y, int xrelative, int yrelative) 
 	{
-
+		cursor.setPosition(x, y);
 	}
 
 	virtual void onMouseButtonClick(FRMouseButton button, bool isReleased) 
 	{
-
+		if (!isReleased)
+		{
+			std::cout << std::endl << cursor.getX() << ':' << cursor.getY();
+			b = new Bullet(400, 300, cursor.getX(), cursor.getY(), 5);
+		}
 	}
 
 	virtual void onKeyPressed(FRKey k) 

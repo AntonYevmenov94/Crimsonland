@@ -4,8 +4,9 @@
 
 class Bullet :public Object
 {
+	float step_x, step_y;
 public:
-	Bullet(int start_x, int start_y, float speed);
+	Bullet(int start_x, int start_y, int end_x, int end_y, float speed);
 
 	void Move();
 
