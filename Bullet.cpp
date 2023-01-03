@@ -11,11 +11,15 @@ Bullet::Bullet(int start_x, int start_y, int end_x, int end_y, float speed)
 	getSpriteSize(sprite, sprite_w, sprite_h);
 
 	//Начальная координата с учетом размера
-	this->position = new Position(start_x - sprite_w, start_y-sprite_h);
+	start_x -= sprite_w / 2;
+	start_y -= sprite_h / 2;
+	this->position = new Position(start_x, start_y);
 
 	//Вектор дивжения пули
+	end_x -= sprite_w / 2;
+	end_y -= sprite_h / 2;
 	float length = sqrt(pow((start_x + end_x), 2) + pow((start_y + end_y), 2));
-	Position s(end_x - start_x + sprite_w, end_y - start_y + sprite_h);
+	Position s(end_x - start_x, end_y - start_y);
 	step_x = s.getX() / (length / speed);
 	step_y = s.getY() / (length / speed);
 }

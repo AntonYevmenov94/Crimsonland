@@ -7,6 +7,7 @@
 /* Test Framework realization */
 class MyFramework : public Framework {
 	Bullet* b;
+	Bullet* b2;
 	Position cursor;
 	int k = 0;
 public:
@@ -20,6 +21,7 @@ public:
 
 	virtual bool Init() 
 	{
+		b2 = new Bullet(400, 300, cursor.getX(), cursor.getY(), 5);
 		return true;
 	}
 
@@ -31,6 +33,7 @@ public:
 	virtual bool Tick() 
 	{
 		drawTestBackground();
+		drawSprite(b2->getSprite(), b2->getPosition()->getX(), b2->getPosition()->getY());
 		if (b != nullptr)
 		{
 			drawSprite(b->getSprite(), b->getPosition()->getX(), b->getPosition()->getY());
@@ -48,6 +51,7 @@ public:
 	{
 		if (!isReleased)
 		{
+			std::cout << cursor.getX() << ':' << cursor.getY() << std::endl;
 			b = new Bullet(400, 300, cursor.getX(), cursor.getY(), 5);
 		}
 	}
