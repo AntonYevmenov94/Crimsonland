@@ -48,7 +48,6 @@ public:
 	{
 		if (!isReleased)
 		{
-			std::cout << std::endl << cursor.getX() << ':' << cursor.getY();
 			b = new Bullet(400, 300, cursor.getX(), cursor.getY(), 5);
 		}
 	}
