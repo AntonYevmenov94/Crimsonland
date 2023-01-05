@@ -21,7 +21,7 @@ public:
 
 	virtual bool Init() 
 	{
-		b2 = new Bullet(400, 300, cursor.getX(), cursor.getY(), 5);
+		//b2 = new Bullet(400, 300, cursor.getX(), cursor.getY(), 5);
 		return true;
 	}
 
@@ -33,11 +33,19 @@ public:
 	virtual bool Tick() 
 	{
 		drawTestBackground();
-		drawSprite(b2->getSprite(), b2->getPosition()->getX(), b2->getPosition()->getY());
+
+		//std::cout << getTickCount() << std::endl;
+
+		//drawSprite(b2->getSprite(), b2->getPosition()->getX(), b2->getPosition()->getY());
 		if (b != nullptr)
 		{
-			drawSprite(b->getSprite(), b->getPosition()->getX(), b->getPosition()->getY());
-			b->Move();
+			b->Draw();
+			//std::cout << b->getPosition()->getX() << ':' << b->getPosition()->getY() << std::endl;
+			if (!b->Move())
+			{
+				delete b;
+				b = nullptr;
+			}
 		}
 		return false;
 	}
@@ -52,7 +60,7 @@ public:
 		if (!isReleased)
 		{
 			std::cout << cursor.getX() << ':' << cursor.getY() << std::endl;
-			b = new Bullet(400, 300, cursor.getX(), cursor.getY(), 5);
+			b = new Bullet(400, 300, cursor.getX(), cursor.getY(), 3, 800, 600);
 		}
 	}
 
