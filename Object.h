@@ -10,6 +10,10 @@ protected:
 	Position* position;
 public:
 
+	void Draw();
+
+	Position* getPosition();
+
 	Sprite* getSprite();
 };
 

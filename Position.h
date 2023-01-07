@@ -1,13 +1,15 @@
 #pragma once
 class Position
 {
-	int x, y;
+	float x, y;
 public:
-	Position(int x, int y);
+	Position(int x = 0, int y = 0);
 
 	int getX();
 	int getY();
 
-	void changePosition(int x, int y);
+	void setPosition(float x, float y);
+
+	void changePosition(float x, float y);
 };
 
