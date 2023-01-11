@@ -3,11 +3,12 @@
 #include <Windows.h>
 #include "Bullet.h"
 #include <iostream>
+#include "Player.h"
 
 /* Test Framework realization */
 class MyFramework : public Framework {
+	Player* player;
 	Bullet* b;
-	Bullet* b2;
 	Position cursor;
 	int k = 0;
 public:
@@ -21,7 +22,7 @@ public:
 
 	virtual bool Init() 
 	{
-		//b2 = new Bullet(400, 300, cursor.getX(), cursor.getY(), 5);
+		player = new Player(400, 300, 3, 800, 600);
 		return true;
 	}
 
@@ -33,14 +34,12 @@ public:
 	virtual bool Tick() 
 	{
 		drawTestBackground();
-
-		//std::cout << getTickCount() << std::endl;
-
-		//drawSprite(b2->getSprite(), b2->getPosition()->getX(), b2->getPosition()->getY());
+		player->Draw();
+		if (player->Moving())
+			player->Move();
 		if (b != nullptr)
 		{
 			b->Draw();
-			//std::cout << b->getPosition()->getX() << ':' << b->getPosition()->getY() << std::endl;
 			if (!b->Move())
 			{
 				delete b;
@@ -57,21 +56,22 @@ public:
 
 	virtual void onMouseButtonClick(FRMouseButton button, bool isReleased) 
 	{
-		if (!isReleased)
+		if (!isReleased && button == FRMouseButton::LEFT)
 		{
 			std::cout << cursor.getX() << ':' << cursor.getY() << std::endl;
-			b = new Bullet(400, 300, cursor.getX(), cursor.getY(), 3, 800, 600);
+			b = new Bullet(player->getPosition()->getX() + 32, player->getPosition()->getY() + 32, cursor.getX(), cursor.getY(), 5, 800, 600);
 		}
 	}
 
 	virtual void onKeyPressed(FRKey k) 
 	{
-
+		player->Move(k, 1);
+		std::cout << player->getPosition()->getX() << ":" << player->getPosition()->getY() << std::endl;
 	}
 
 	virtual void onKeyReleased(FRKey k) 
 	{
-
+		player->Move(k, 0);
 	}
 };
 

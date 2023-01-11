@@ -9,7 +9,6 @@ Bullet::Bullet(int start_x, int start_y, int end_x, int end_y, float speed, int 
 	this->speed = speed;
 
 	//Sprite size
-	int sprite_h, sprite_w;
 	sprite = createSprite("data/bullet.png");
 	getSpriteSize(sprite, sprite_w, sprite_h);
 

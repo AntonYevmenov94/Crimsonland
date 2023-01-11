@@ -6,6 +6,7 @@ class Object
 {
 protected:
 	float speed;
+	int sprite_h, sprite_w;
 	Sprite* sprite;
 	Position* position;
 public:
