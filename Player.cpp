@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(float start_x, float start_y, float speed, int disp_w, int disp_h)
+Player::Player(float start_x, float start_y, float speed, int clip_size, int disp_w, int disp_h)
 {
 	start_x -= 32;
 	start_y -= 32;
@@ -10,6 +10,7 @@ Player::Player(float start_x, float start_y, float speed, int disp_w, int disp_h
 	sprite = createSprite("data/avatar.jpg");
 	getSpriteSize(sprite, sprite_w, sprite_h);
 	this->speed = speed;
+	clip = clip_size;
 }
 
 void Player::Move(FRKey key, bool isPressed)
@@ -59,11 +60,37 @@ void Player::Move(FRKey key, bool isPressed)
 	}
 }
 
-void Player::Shot()
+void Player::Shot(Position* cursor)
 {
+	if(shots.size() < clip)
+		shots.push_back(new Bullet(position->getX() + (sprite_w / 2), position->getY() + (sprite_h / 2), cursor->getX(), cursor->getY(), 5, display_w, display_h));
 }
 
 bool Player::Moving()
 {
 	return isMoving ? true : false;
+}
+
+Player::~Player()
+{
+	delete position;
+	destroySprite(sprite);
+}
+
+void Player::Draw()
+{
+	drawSprite(sprite, position->getX(), position->getY());
+	if (!shots.empty())
+	{
+		for (int i = 0; i < shots.size(); i++)
+		{
+			shots[i]->Draw();
+			if (!shots[i]->Move())
+			{
+				delete shots[i];
+				auto it = shots.begin();
+				shots.erase(it + i);
+			}
+		}
+	}
 }

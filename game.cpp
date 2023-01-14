@@ -22,7 +22,7 @@ public:
 
 	virtual bool Init() 
 	{
-		player = new Player(400, 300, 3, 800, 600);
+		player = new Player(400, 300, 3, 5, 800, 600);
 		return true;
 	}
 
@@ -35,9 +35,10 @@ public:
 	{
 		drawTestBackground();
 		player->Draw();
+
 		if (player->Moving())
 			player->Move();
-		if (b != nullptr)
+		/*if (b != nullptr)
 		{
 			b->Draw();
 			if (!b->Move())
@@ -45,7 +46,7 @@ public:
 				delete b;
 				b = nullptr;
 			}
-		}
+		}*/
 		return false;
 	}
 
@@ -58,8 +59,8 @@ public:
 	{
 		if (!isReleased && button == FRMouseButton::LEFT)
 		{
-			std::cout << cursor.getX() << ':' << cursor.getY() << std::endl;
-			b = new Bullet(player->getPosition()->getX() + 32, player->getPosition()->getY() + 32, cursor.getX(), cursor.getY(), 5, 800, 600);
+			//std::cout << cursor.getX() << ':' << cursor.getY() << std::endl;
+			player->Shot(&cursor);
 		}
 	}
 
