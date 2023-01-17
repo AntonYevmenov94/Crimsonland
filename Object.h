@@ -1,6 +1,7 @@
 #pragma once
 #include "Framework.h"
 #include "Position.h"
+#include <string>
 
 class Object
 {

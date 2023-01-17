@@ -62,8 +62,18 @@ void Player::Move(FRKey key, bool isPressed)
 
 void Player::Shot(Position* cursor)
 {
-	if(shots.size() < clip)
+	if (shot == clip && shots.empty() && !can_shot)
+	{
+		can_shot = true;
+		shot = 0;
+	}
+	if (can_shot)
+	{
 		shots.push_back(new Bullet(position->getX() + (sprite_w / 2), position->getY() + (sprite_h / 2), cursor->getX(), cursor->getY(), 5, display_w, display_h));
+		shot++;
+	}
+	if (shot == clip)
+		can_shot = false;
 }
 
 bool Player::Moving()
@@ -88,7 +98,7 @@ void Player::Draw()
 			if (!shots[i]->Move())
 			{
 				delete shots[i];
-				auto it = shots.begin();
+				std::vector<Bullet*>::iterator it = shots.begin();
 				shots.erase(it + i);
 			}
 		}

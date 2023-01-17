@@ -4,25 +4,28 @@
 #include "Bullet.h"
 #include <iostream>
 #include "Player.h"
+#include "Aim.h"
 
 /* Test Framework realization */
 class MyFramework : public Framework {
 	Player* player;
 	Bullet* b;
 	Position cursor;
+	Aim* aim;
 	int k = 0;
 public:
 
 	virtual void PreInit(int& width, int& height, bool& fullscreen)
 	{
-		width = 800;
-		height = 600;
+		width = 1000;
+		height = 800;
 		fullscreen = false;
 	}
 
 	virtual bool Init() 
 	{
-		player = new Player(400, 300, 3, 5, 800, 600);
+		player = new Player(500, 400, 3, 5, 1000, 800);
+		aim = new Aim;
 		return true;
 	}
 
@@ -34,24 +37,18 @@ public:
 	virtual bool Tick() 
 	{
 		drawTestBackground();
+		aim->Draw();
 		player->Draw();
 
 		if (player->Moving())
 			player->Move();
-		/*if (b != nullptr)
-		{
-			b->Draw();
-			if (!b->Move())
-			{
-				delete b;
-				b = nullptr;
-			}
-		}*/
+
 		return false;
 	}
 
 	virtual void onMouseMove(int x, int y, int xrelative, int yrelative) 
 	{
+		aim->setPosition(x, y);
 		cursor.setPosition(x, y);
 	}
 
@@ -59,7 +56,6 @@ public:
 	{
 		if (!isReleased && button == FRMouseButton::LEFT)
 		{
-			//std::cout << cursor.getX() << ':' << cursor.getY() << std::endl;
 			player->Shot(&cursor);
 		}
 	}

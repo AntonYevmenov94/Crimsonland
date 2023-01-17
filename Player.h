@@ -9,6 +9,8 @@ class Player : public Object
 {
 	int display_w, display_h;
 	bool isMoving = false;
+	bool can_shot = true;
+	int shot = 0;
 	FRKey key;
 	int clip = 0;
 	std::vector<Bullet*> shots;
