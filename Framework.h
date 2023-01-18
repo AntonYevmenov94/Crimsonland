@@ -7,6 +7,7 @@
 #define FRAMEWORK_API __declspec(dllimport)
 #endif
 
+#include <vector>
 
 // Bonus for any found bugs in the framework!
 
