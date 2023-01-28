@@ -1,6 +1,6 @@
 #include "Enemy.h"
 
-Enemy::Enemy(int disp_w, int disp_h, Position* player, std::vector<Enemy*> enemies)
+Enemy::Enemy(int disp_w, int disp_h, Position* player, std::vector<Enemy*>* enemies)
 {
 	int P_sprite_w, P_sprite_h;
 	bool positionIsOk = false;
@@ -23,9 +23,9 @@ Enemy::Enemy(int disp_w, int disp_h, Position* player, std::vector<Enemy*> enemi
 			positionIsOk = false;
 			continue;
 		}
-		if (!enemies.empty())
+		if (!enemies->empty())
 		{
-			for (auto enemy : enemies)
+			for (auto enemy : *enemies)
 			{
 				if (start_x >= (enemy->position->getX() - 10) && start_x <= (enemy->position->getX() + sprite_w + 10) &&
 					start_y >= (enemy->position->getY() - 10) && start_y <= (enemy->position->getY() + sprite_h + 10)
@@ -37,8 +37,6 @@ Enemy::Enemy(int disp_w, int disp_h, Position* player, std::vector<Enemy*> enemi
 			}
 		}
 	}
-	
-
 	position = new Position(start_x, start_y);
 }
 

@@ -28,8 +28,7 @@ public:
 		player = new Player(500, 400, 3, 5, 1000, 800);
 		for (int i = 0; i < 15; i++)
 		{
-			
-			enemies.push_back(new Enemy(1000, 800, player->getPosition(), enemies));
+			enemies.push_back(new Enemy(1000, 800, player->getPosition(), &enemies));
 		}
 		aim = new Aim;
 		return true;
