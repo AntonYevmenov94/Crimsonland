@@ -5,9 +5,9 @@
 
 class Enemy : public Object
 {
-	int start_x, start_y;
+	int start_x = 0, start_y = 0;
 public:
-	Enemy(int start_x, int start_y, int disp_w, int disp_h);
+	Enemy(int disp_w, int disp_h, Position* player, std::vector<Enemy*> enemies);
 
 	bool Move();
 

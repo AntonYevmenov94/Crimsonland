@@ -13,7 +13,6 @@ class MyFramework : public Framework {
 	Bullet* b;
 	Position cursor;
 	Aim* aim;
-	int k = 0;
 public:
 
 	virtual void PreInit(int& width, int& height, bool& fullscreen)
@@ -27,11 +26,10 @@ public:
 	{
 		srand(time(0));
 		player = new Player(500, 400, 3, 5, 1000, 800);
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 15; i++)
 		{
-			int start_x = 1 + rand() % 1000;
-			int start_y = 1 + rand() % 800;
-			enemies.push_back(new Enemy(start_x, start_y, 1000, 800));
+			
+			enemies.push_back(new Enemy(1000, 800, player->getPosition(), enemies));
 		}
 		aim = new Aim;
 		return true;
@@ -47,13 +45,9 @@ public:
 		drawTestBackground();
 		aim->Draw();
 		player->Draw();
-		
-		for (size_t i = 0; i < enemies.size(); i++)
-		{
-			enemies[i]->Draw();
-		}
-		/*for(auto enemy:enemies)
-			enemy->Draw();*/
+
+		for(auto enemy:enemies)
+			enemy->Draw();
 
 		if (player->Moving())
 			player->Move();
@@ -65,6 +59,7 @@ public:
 	{
 		aim->setPosition(x, y);
 		cursor.setPosition(x, y);
+		std::cout << x << ":" << y << std::endl;
 	}
 
 	virtual void onMouseButtonClick(FRMouseButton button, bool isReleased) 
@@ -72,6 +67,11 @@ public:
 		if (!isReleased && button == FRMouseButton::LEFT)
 		{
 			player->Shot(&cursor);
+		}
+		if (button == FRMouseButton::RIGHT)
+		{
+			system("cls");
+			std::cout << player->getPosition()->getX() << std::endl;
 		}
 	}
 
