@@ -26,9 +26,9 @@ public:
 	{
 		srand(time(0));
 		player = new Player(500, 400, 3, 5, 1000, 800);
-		for (int i = 0; i < 15; i++)
+		for (int i = 0; i < 5; i++)
 		{
-			enemies.push_back(new Enemy(1000, 800, player->getPosition(), &enemies));
+			enemies.push_back(new Enemy(1000, 800, 1, player->getPosition(), &enemies));
 		}
 		aim = new Aim;
 		return true;
@@ -42,11 +42,16 @@ public:
 	virtual bool Tick() 
 	{
 		drawTestBackground();
+
 		aim->Draw();
 		player->Draw();
 
-		for(auto enemy:enemies)
+		for (auto enemy : enemies)
+		{
 			enemy->Draw();
+			enemy->Move(player->getPosition(), &enemies);
+
+		}
 
 		if (player->Moving())
 			player->Move();
