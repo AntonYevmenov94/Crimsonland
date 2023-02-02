@@ -5,8 +5,8 @@ class Position
 public:
 	Position(int x = 0, int y = 0);
 
-	int getX();
-	int getY();
+	float getX();
+	float getY();
 
 	void setPosition(float x, float y);
 

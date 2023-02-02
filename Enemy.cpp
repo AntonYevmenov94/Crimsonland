@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include <iostream>
 
 Enemy::Enemy(int disp_w, int disp_h, int speed, Position* player, std::vector<Enemy*>* enemies)
 {
@@ -41,6 +42,9 @@ Enemy::Enemy(int disp_w, int disp_h, int speed, Position* player, std::vector<En
 
 bool Enemy::Move(Position* player, std::vector<Enemy*>* enemies)
 {
+	float tmp_x, tmp_y;
+	bool positionIsOk = true;
+
 	int end_x = player->getX() + P_sprite_w / 2;
 	int end_y = player->getY() + P_sprite_h / 2;
 
@@ -51,6 +55,33 @@ bool Enemy::Move(Position* player, std::vector<Enemy*>* enemies)
 	float step_x = s.getX() / (length / speed);
 	float step_y = s.getY() / (length / speed);
 
+	float new_center_x = 0;
+	float new_center_y = 0;
+	float E_center_x = 0;
+	float E_center_y = 0;
+	float distance;
+
+	if (!enemies->empty())
+	{
+		for (auto enemy : *enemies)
+		{
+			if (this != enemy)
+			{
+				E_center_x = enemy->position->getX() + sprite_w / 2;
+				E_center_y = enemy->position->getY() + sprite_h / 2;
+
+				new_center_x = (position->getX() + sprite_w / 2) + step_x;
+				new_center_y = (position->getY() + sprite_h / 2) + step_y;
+
+				distance = sqrt(pow((E_center_x - new_center_x), 2) + pow(E_center_y - new_center_y, 2));
+				if (distance <= 28)
+				{
+					step_x = step_y = 0;
+					break;
+				}
+			}
+		}
+	}
 	position->changePosition(step_x, step_y);
 
 	return false;

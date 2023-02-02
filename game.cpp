@@ -50,7 +50,6 @@ public:
 		{
 			enemy->Draw();
 			enemy->Move(player->getPosition(), &enemies);
-
 		}
 
 		if (player->Moving())
