@@ -1,15 +1,14 @@
 #include "Enemy.h"
 #include <iostream>
 
-Enemy::Enemy(int disp_w, int disp_h, int speed, Position* player, std::vector<Enemy*>* enemies)
+Enemy::Enemy(int disp_w, int disp_h, int speed, Object* player, std::vector<Enemy*>* enemies)
 {
 	bool positionIsOk = false;
 
 	this->speed = speed;
 	sprite = createSprite("data/enemy.png");
 	getSpriteSize(sprite, sprite_w, sprite_h);
-	getSpriteSize(sprite, P_sprite_w, P_sprite_h);
-
+	getSpriteSize(player->getSprite(), P_sprite_w, P_sprite_h);
 	while (!positionIsOk)
 	{
 		start_x = 1 + rand() % (1000 - sprite_w);
@@ -17,8 +16,8 @@ Enemy::Enemy(int disp_w, int disp_h, int speed, Position* player, std::vector<En
 
 		positionIsOk = true;
 
-		if ((start_x > (player->getX() - 132) && start_x < (player->getX() + P_sprite_w + 132)) && 
-			(start_y > (player->getY() - 132) && start_y < (player->getY() + P_sprite_h + 132))
+		if ((start_x > (player->getPosition()->getX() - 132) && start_x < (player->getPosition()->getX() + P_sprite_w + 132)) &&
+			(start_y > (player->getPosition()->getY() - 132) && start_y < (player->getPosition()->getY() + P_sprite_h + 132))
 			)
 		{
 			positionIsOk = false;
@@ -40,7 +39,7 @@ Enemy::Enemy(int disp_w, int disp_h, int speed, Position* player, std::vector<En
 	position = new Position(start_x, start_y);
 }
 
-bool Enemy::Move(Position* player, std::vector<Enemy*>* enemies)
+void Enemy::Move(Position* player, std::vector<Enemy*>* enemies)
 {
 	float tmp_x, tmp_y;
 	bool positionIsOk = true;
@@ -83,8 +82,24 @@ bool Enemy::Move(Position* player, std::vector<Enemy*>* enemies)
 		}
 	}
 	position->changePosition(step_x, step_y);
+}
 
-	return false;
+bool Enemy::CatchUpPlayer(Position* player)
+{
+	float P_center_x = player->getX() + (float)P_sprite_w / 2;
+	float P_center_y = player->getY() + (float)P_sprite_h / 2;
+
+	float center_x = position->getX() + sprite_w / 2;
+	float center_y = position->getY() + sprite_h / 2;
+
+	float distance = sqrt(pow((P_center_x - center_x), 2) + pow(P_center_y - center_y, 2));
+	
+	std::cout << distance << std::endl;
+	if (distance <= 40)
+	{
+		std::cout << distance << std::endl;
+	}
+	return (distance <= 40) ? true : false;
 }
 
 Enemy::~Enemy()

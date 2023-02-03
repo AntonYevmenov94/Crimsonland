@@ -9,9 +9,11 @@ class Enemy : public Object
 	int P_sprite_w, P_sprite_h;
 
 public:
-	Enemy(int disp_w, int disp_h, int speed, Position* player, std::vector<Enemy*>* enemies);
+	Enemy(int disp_w, int disp_h, int speed, Object* player, std::vector<Enemy*>* enemies);
 
-	bool Move(Position* player, std::vector<Enemy*>* enemies);
+	void Move(Position* player, std::vector<Enemy*>* enemies);
+
+	bool CatchUpPlayer(Position* player);
 
 	~Enemy();
 };

@@ -1,6 +1,5 @@
 
 #include "Framework.h"
-#include <Windows.h>
 #include "Bullet.h"
 #include <iostream>
 #include "Player.h"
@@ -11,7 +10,7 @@ class MyFramework : public Framework {
 	
 	bool begin = true;
 	int sec;
-	
+	bool gameOver = false;
 	int tick;
 	Player* player;
 	std::vector<Enemy*> enemies;
@@ -36,11 +35,11 @@ public:
 	{
 		srand(time(0));
 		player = new Player(500, 400, 3, 5, 1000, 800);
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 1; i++)
 		{
-			enemies.push_back(new Enemy(1000, 800, 1, player->getPosition(), &enemies));
+			enemies.push_back(new Enemy(1000, 800, 1, player, &enemies));
 		}
-		//enemies[0]->getPosition()->setPosition(440, 400);
+		//enemies[0]->getPosition()->setPosition(445, 400);
 		aim = new Aim;
 		s_1 = createSprite("data/1.png");
 		s_2 = createSprite("data/2.png");
@@ -61,7 +60,13 @@ public:
 
 		aim->Draw();
 		player->Draw();
-		if (begin)
+
+		if (gameOver)
+		{
+			system("pause");
+		}
+
+	/*	if (begin)
 		{
 			if (sec < 3 && tick > getTickCount()) 
 			{
@@ -80,12 +85,14 @@ public:
 			tick = DrawBegin(sec) + 1000;
 			sec--;
 			return false;
-		}
+		}*/
 			
 		for (auto enemy : enemies)
 		{
-			enemy->Move(player->getPosition(), &enemies);
 			enemy->Draw();
+			enemy->Move(player->getPosition(), &enemies);
+			if(enemy->CatchUpPlayer(player->getPosition()))
+				gameOver = true;
 		}
 
 		if (player->Moving())
@@ -98,7 +105,7 @@ public:
 	{
 		aim->setPosition(x, y);
 		cursor.setPosition(x, y);
-		std::cout << x << ":" << y << std::endl;
+		//std::cout << x << ":" << y << std::endl;
 	}
 
 	virtual void onMouseButtonClick(FRMouseButton button, bool isReleased) 
@@ -116,16 +123,16 @@ public:
 
 	virtual void onKeyPressed(FRKey k) 
 	{
-		if (begin)
-			return;
+		/*if (begin)
+			return;*/
 		player->Move(k, 1);
 		std::cout << player->getPosition()->getX() << ":" << player->getPosition()->getY() << std::endl;
 	}
 
 	virtual void onKeyReleased(FRKey k) 
 	{
-		if (begin)
-			return;
+		/*if (begin)
+			return;*/
 		player->Move(k, 0);
 	}
 
