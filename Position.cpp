@@ -6,12 +6,12 @@ Position::Position(int x, int y)
 	this->y = y;
 }
 
-int Position::getX()
+float Position::getX()
 {
 	return x;
 }
 
-int Position::getY()
+float Position::getY()
 {
 	return y;
 }
