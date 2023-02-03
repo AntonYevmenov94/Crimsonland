@@ -8,11 +8,21 @@
 
 /* Test Framework realization */
 class MyFramework : public Framework {
+	
+	bool begin = true;
+	int sec;
+	
+	int tick;
 	Player* player;
 	std::vector<Enemy*> enemies;
 	Bullet* b;
 	Position cursor;
 	Aim* aim;
+	Sprite* s_1;
+	Sprite* s_2;
+	Sprite* s_3;
+	Sprite* s_go;
+
 public:
 
 	virtual void PreInit(int& width, int& height, bool& fullscreen)
@@ -30,7 +40,13 @@ public:
 		{
 			enemies.push_back(new Enemy(1000, 800, 1, player->getPosition(), &enemies));
 		}
+		//enemies[0]->getPosition()->setPosition(440, 400);
 		aim = new Aim;
+		s_1 = createSprite("data/1.png");
+		s_2 = createSprite("data/2.png");
+		s_3 = createSprite("data/3.png");
+		s_go = createSprite("data/go.png");
+		sec = 3;
 		return true;
 	}
 
@@ -45,11 +61,31 @@ public:
 
 		aim->Draw();
 		player->Draw();
-
+		if (begin)
+		{
+			if (sec < 3 && tick > getTickCount()) 
+			{
+				DrawBegin(sec + 1);
+				return false;
+			}
+			if (sec == -1)
+			{
+				begin = false;
+				destroySprite(s_1);
+				destroySprite(s_2);
+				destroySprite(s_3);
+				destroySprite(s_go);
+				return false;
+			}
+			tick = DrawBegin(sec) + 1000;
+			sec--;
+			return false;
+		}
+			
 		for (auto enemy : enemies)
 		{
-			enemy->Draw();
 			enemy->Move(player->getPosition(), &enemies);
+			enemy->Draw();
 		}
 
 		if (player->Moving())
@@ -80,13 +116,38 @@ public:
 
 	virtual void onKeyPressed(FRKey k) 
 	{
+		if (begin)
+			return;
 		player->Move(k, 1);
 		std::cout << player->getPosition()->getX() << ":" << player->getPosition()->getY() << std::endl;
 	}
 
 	virtual void onKeyReleased(FRKey k) 
 	{
+		if (begin)
+			return;
 		player->Move(k, 0);
+	}
+
+	int DrawBegin(int sec)
+	{
+		switch (sec)
+		{
+		case 3:
+			drawSprite(s_3, 450, 230);
+			return getTickCount();
+		case 2:
+			drawSprite(s_2, 450, 230);
+			return getTickCount();
+		case 1:
+			drawSprite(s_1, 450, 230);
+			return getTickCount();
+		case 0:
+			drawSprite(s_go, 450, 280);
+			return getTickCount();
+		default:
+			break;
+		}
 	}
 };
 
