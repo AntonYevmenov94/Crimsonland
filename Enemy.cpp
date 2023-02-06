@@ -27,8 +27,8 @@ Enemy::Enemy(int disp_w, int disp_h, int speed, Object* player, std::vector<Enem
 		{
 			for (auto enemy : *enemies)
 			{
-				if (start_x >= (enemy->position->getX() - 15) && start_x <= (enemy->position->getX() + sprite_w + 15) &&
-					start_y >= (enemy->position->getY() - 15) && start_y <= (enemy->position->getY() + sprite_h + 15)
+				if (start_x >= (enemy->position->getX() - 20) && start_x <= (enemy->position->getX() + sprite_w + 20) &&
+					start_y >= (enemy->position->getY() - 20) && start_y <= (enemy->position->getY() + sprite_h + 20)
 					)
 				{
 					positionIsOk = false;

@@ -13,7 +13,7 @@ Player::Player(float start_x, float start_y, float speed, int clip_size, int dis
 	clip = clip_size;
 }
 
-void Player::Move(FRKey key, bool isPressed)
+void Player::Move(int& bg_pos_x, int& bg_pos_y, std::vector<Enemy*>& enemies, FRKey key, bool isPressed)
 {
 	if (isPressed)
 	{
@@ -32,24 +32,52 @@ void Player::Move(FRKey key, bool isPressed)
 	switch (this->key)
 	{
 	case FRKey::RIGHT:
+		if (bg_pos_x > -200)
+		{
+			bg_pos_x -= speed;
+			for (auto enemy : enemies)
+				enemy->getPosition()->changePosition(-speed, 0);
+			break;
+		}
 		if ((position->getX() + sprite_w) + speed < display_w)
 			position->changePosition(speed, 0);
 		else
 			position->changePosition(display_w - (position->getX() + sprite_w), 0);
 		break;
 	case FRKey::LEFT:
+		if (bg_pos_x < 0)
+		{
+			bg_pos_x += speed;
+			for (auto enemy : enemies)
+				enemy->getPosition()->changePosition(speed, 0);
+			break;
+		}
 		if (position->getX() - speed > 0)
 			position->changePosition(-speed, 0);
 		else
 			position->changePosition(- position->getX(), 0);
 		break;
 	case FRKey::DOWN:
+		if (bg_pos_y > -200)
+		{
+			bg_pos_y -= speed;
+			for (auto enemy : enemies)
+				enemy->getPosition()->changePosition(0, -speed);
+			break;
+		}
 		if ((position->getY() + sprite_h) + speed < display_h)
 			position->changePosition(0, speed);
 		else
 			position->changePosition(0, display_h - (position->getY() + sprite_h));
 		break;
 	case FRKey::UP:
+		if (bg_pos_y < 0)
+		{
+			bg_pos_y += speed;
+			for (auto enemy : enemies)
+				enemy->getPosition()->changePosition(0, speed);
+			break;
+		}
 		if (position->getY() - speed > 0)
 			position->changePosition(0, -speed);
 		else
