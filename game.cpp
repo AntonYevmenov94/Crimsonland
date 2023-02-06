@@ -11,7 +11,7 @@ class MyFramework : public Framework {
 	bool begin = true;
 	int sec;
 	bool gameOver = false;
-	int tick;
+	unsigned tick;
 	Player* player;
 	std::vector<Enemy*> enemies;
 	Bullet* b;
@@ -35,7 +35,7 @@ public:
 	{
 		srand(time(0));
 		player = new Player(500, 400, 3, 5, 1000, 800);
-		for (int i = 0; i < 1; i++)
+		for (int i = 0; i < 5; i++)
 		{
 			enemies.push_back(new Enemy(1000, 800, 1, player, &enemies));
 		}
@@ -60,13 +60,14 @@ public:
 
 		aim->Draw();
 		player->Draw();
+		player->DrawShots(enemies);
 
 		if (gameOver)
 		{
 			system("pause");
 		}
 
-	/*	if (begin)
+		if (begin)
 		{
 			if (sec < 3 && tick > getTickCount()) 
 			{
@@ -85,7 +86,7 @@ public:
 			tick = DrawBegin(sec) + 1000;
 			sec--;
 			return false;
-		}*/
+		}
 			
 		for (auto enemy : enemies)
 		{
@@ -123,16 +124,16 @@ public:
 
 	virtual void onKeyPressed(FRKey k) 
 	{
-		/*if (begin)
-			return;*/
+		if (begin)
+			return;
 		player->Move(k, 1);
 		std::cout << player->getPosition()->getX() << ":" << player->getPosition()->getY() << std::endl;
 	}
 
 	virtual void onKeyReleased(FRKey k) 
 	{
-		/*if (begin)
-			return;*/
+		if (begin)
+			return;
 		player->Move(k, 0);
 	}
 

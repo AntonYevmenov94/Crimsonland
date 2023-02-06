@@ -23,8 +23,8 @@ public:
 
 	void Shot(Position* cursor);
 
-	void Draw();
-
+	void DrawShots(std::vector<Enemy*> &enemies);
+	
 	~Player();
 
 };

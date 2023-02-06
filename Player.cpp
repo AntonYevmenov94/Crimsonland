@@ -87,18 +87,17 @@ Player::~Player()
 	destroySprite(sprite);
 }
 
-void Player::Draw()
+void Player::DrawShots(std::vector<Enemy*> &enemies)
 {
-	drawSprite(sprite, position->getX(), position->getY());
 	if (!shots.empty())
 	{
+		std::vector<Bullet*>::iterator it = shots.begin();
 		for (int i = 0; i < shots.size(); i++)
 		{
 			shots[i]->Draw();
-			if (!shots[i]->Move())
+			if (!shots[i]->Move(enemies))
 			{
 				delete shots[i];
-				std::vector<Bullet*>::iterator it = shots.begin();
 				shots.erase(it + i);
 			}
 		}

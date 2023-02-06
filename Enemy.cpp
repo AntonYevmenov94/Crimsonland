@@ -44,8 +44,8 @@ void Enemy::Move(Position* player, std::vector<Enemy*>* enemies)
 	float tmp_x, tmp_y;
 	bool positionIsOk = true;
 
-	int end_x = player->getX() + P_sprite_w / 2;
-	int end_y = player->getY() + P_sprite_h / 2;
+	float end_x = player->getX() + P_sprite_w / 2;
+	float end_y = player->getY() + P_sprite_h / 2;
 
 	Position s(end_x - position->getX(), end_y - position->getY());
 
@@ -81,7 +81,7 @@ void Enemy::Move(Position* player, std::vector<Enemy*>* enemies)
 			}
 		}
 	}
-	position->changePosition(step_x, step_y);
+	//position->changePosition(step_x, step_y);
 }
 
 bool Enemy::CatchUpPlayer(Position* player)
@@ -94,11 +94,6 @@ bool Enemy::CatchUpPlayer(Position* player)
 
 	float distance = sqrt(pow((P_center_x - center_x), 2) + pow(P_center_y - center_y, 2));
 	
-	std::cout << distance << std::endl;
-	if (distance <= 40)
-	{
-		std::cout << distance << std::endl;
-	}
 	return (distance <= 40) ? true : false;
 }
 

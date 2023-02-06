@@ -3,7 +3,7 @@ class Position
 {
 	float x, y;
 public:
-	Position(int x = 0, int y = 0);
+	Position(float x = 0, float y = 0);
 
 	float getX();
 	float getY();

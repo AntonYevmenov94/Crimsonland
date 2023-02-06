@@ -9,7 +9,9 @@ class Bullet :public Object
 public:
 	Bullet(int start_x, int start_y, int end_x, int end_y, float speed, int disp_w, int disp_h);
 
-	bool Move();
+	bool Move(std::vector<Enemy*>& enemies);
+	
+	bool IsHit(std::vector<Enemy*>& enemies);
 
 	void Destroy(Enemy* enemy);
 
