@@ -24,6 +24,8 @@ class MyFramework : public Framework {
 	Sprite* s_go;
 	Sprite* s_lose;
 	Sprite* s_win;
+	Sprite* background;
+	int bg_pos_x, bg_pos_y;
 
 public:
 
@@ -36,8 +38,12 @@ public:
 
 	virtual bool Init() 
 	{
-		showCursor(false);
+		//showCursor(false);
 		srand(time(0));
+		
+		background = createSprite("data/bg.jpg");
+		bg_pos_x = bg_pos_y = -500;
+
 		player = new Player(500, 400, 3, 5, 1000, 800);
 		aim = new Aim;
 		for (int i = 0; i < 5; i++)
@@ -60,6 +66,7 @@ public:
 		delete aim;
 		destroySprite(s_lose);
 		destroySprite(s_win);
+		destroySprite(background);
 		if (!enemies.empty())
 		{
 			for (auto enemy : enemies)
@@ -77,6 +84,8 @@ public:
 	{
 		drawTestBackground();
 	
+		drawSprite(background, bg_pos_x, bg_pos_y);
+
 		aim->Draw();
 		player->Draw();
 		player->DrawShots(enemies);
@@ -149,7 +158,7 @@ public:
 		}
 		
 		if (player->Moving())
-			player->Move();
+			player->Move(bg_pos_x, bg_pos_y, enemies);
 
 		return false;
 	}
@@ -172,31 +181,37 @@ public:
 	{
 		if (begin || gameOver)
 			return;
-		player->Move(k, 1);
+		player->Move(bg_pos_x, bg_pos_y, enemies, k, 1);
 	}
 
 	virtual void onKeyReleased(FRKey k) 
 	{
 		if (begin || gameOver)
 			return;
-		player->Move(k, 0);
+		player->Move(bg_pos_x, bg_pos_y, enemies, k, 0);
 	}
 
 	int DrawBegin(int sec)
 	{
+		int x, y, w, h;
+		getScreenSize(w, h);
 		switch (sec)
 		{
 		case 3:
-			drawSprite(s_3, 450, 230);
+			getSpriteSize(s_3, x, y);
+			drawSprite(s_3, (w - x) / 2, (h - y) / 2);
 			return getTickCount();
 		case 2:
-			drawSprite(s_2, 450, 230);
+			getSpriteSize(s_2, x, y);
+			drawSprite(s_2, (w - x) / 2, (h - y) / 2);
 			return getTickCount();
 		case 1:
-			drawSprite(s_1, 450, 230);
+			getSpriteSize(s_1, x, y);
+			drawSprite(s_1, (w - x) / 2, (h - y) / 2);
 			return getTickCount();
 		case 0:
-			drawSprite(s_go, 450, 280);
+			getSpriteSize(s_go, x, y);
+			drawSprite(s_go, (w - x) / 2, (h - y) / 2);
 			return getTickCount();
 		default:
 			break;

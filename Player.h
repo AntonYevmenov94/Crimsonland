@@ -17,7 +17,7 @@ public:
 	
 	Player(float start_x, float start_y, float speed, int clip_size, int disp_w, int disp_h);
 
-	void Move(FRKey key = FRKey::COUNT, bool isPressed = true);
+	void Move(int& bg_pos_x, int& bg_pos_y, std::vector<Enemy*> &enemies, FRKey key = FRKey::COUNT, bool isPressed = true);
 
 	bool Moving();
 
