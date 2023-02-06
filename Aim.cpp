@@ -11,3 +11,9 @@ void Aim::setPosition(int x, int y)
 {
 	position->setPosition(x - sprite_w / 2, y - sprite_h / 2);
 }
+
+Aim::~Aim()
+{
+	delete position;
+	destroySprite(sprite);
+}

@@ -11,8 +11,8 @@ Enemy::Enemy(int disp_w, int disp_h, int speed, Object* player, std::vector<Enem
 	getSpriteSize(player->getSprite(), P_sprite_w, P_sprite_h);
 	while (!positionIsOk)
 	{
-		start_x = 1 + rand() % (1000 - sprite_w);
-		start_y = 1 + rand() % (800 - sprite_h);
+		start_x = 1 + rand() % (disp_w - sprite_w);
+		start_y = 1 + rand() % (disp_h - sprite_h);
 
 		positionIsOk = true;
 
@@ -27,8 +27,8 @@ Enemy::Enemy(int disp_w, int disp_h, int speed, Object* player, std::vector<Enem
 		{
 			for (auto enemy : *enemies)
 			{
-				if (start_x >= (enemy->position->getX() - 10) && start_x <= (enemy->position->getX() + sprite_w + 10) &&
-					start_y >= (enemy->position->getY() - 10) && start_y <= (enemy->position->getY() + sprite_h + 10)
+				if (start_x >= (enemy->position->getX() - 15) && start_x <= (enemy->position->getX() + sprite_w + 15) &&
+					start_y >= (enemy->position->getY() - 15) && start_y <= (enemy->position->getY() + sprite_h + 15)
 					)
 				{
 					positionIsOk = false;

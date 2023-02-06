@@ -7,5 +7,7 @@ public:
 	Aim();
 
 	void setPosition(int x, int y);
+
+	~Aim();
 };
 
