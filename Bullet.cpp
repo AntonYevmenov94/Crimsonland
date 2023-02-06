@@ -38,6 +38,8 @@ bool Bullet::Move(std::vector<Enemy*>& enemies)
 
 bool Bullet::IsHit(std::vector<Enemy*>& enemies)
 {
+	if (enemies.empty())
+		return false;
 	float E_center_x, E_center_y;
 	float B_center_x, B_center_y;
 	int E_sprite_w;

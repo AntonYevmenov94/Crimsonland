@@ -9,6 +9,7 @@
 class MyFramework : public Framework {
 	
 	bool begin = true;
+	bool win, lose;
 	int sec;
 	bool gameOver = false;
 	unsigned tick;
@@ -21,6 +22,8 @@ class MyFramework : public Framework {
 	Sprite* s_2;
 	Sprite* s_3;
 	Sprite* s_go;
+	Sprite* s_lose;
+	Sprite* s_win;
 
 public:
 
@@ -39,12 +42,13 @@ public:
 		{
 			enemies.push_back(new Enemy(1000, 800, 1, player, &enemies));
 		}
-		//enemies[0]->getPosition()->setPosition(445, 400);
 		aim = new Aim;
 		s_1 = createSprite("data/1.png");
 		s_2 = createSprite("data/2.png");
 		s_3 = createSprite("data/3.png");
 		s_go = createSprite("data/go.png");
+		s_lose = createSprite("data/lose.png");
+		s_win = createSprite("data/win.png");
 		sec = 3;
 		return true;
 	}
@@ -57,14 +61,29 @@ public:
 	virtual bool Tick() 
 	{
 		drawTestBackground();
-
+		
 		aim->Draw();
 		player->Draw();
 		player->DrawShots(enemies);
 
 		if (gameOver)
 		{
-			system("pause");
+			int x, y, w, h;
+			getScreenSize(w, h);
+			if (lose)
+			{
+				getSpriteSize(s_lose, x, y);
+				drawSprite(s_lose, (w - x) / 2, (h - y) / 2);
+				for (auto enemy : enemies)
+					enemy->Draw();
+			}
+			else
+			{
+				getSpriteSize(s_win, x, y);
+				drawSprite(s_win, (w - x) / 2, (h - y) / 2);
+			}
+			
+			return false;
 		}
 
 		if (begin)
@@ -88,14 +107,25 @@ public:
 			return false;
 		}
 			
-		for (auto enemy : enemies)
+		if (!enemies.empty())
 		{
-			enemy->Draw();
-			enemy->Move(player->getPosition(), &enemies);
-			if(enemy->CatchUpPlayer(player->getPosition()))
-				gameOver = true;
+			for (auto enemy : enemies)
+			{
+				enemy->Draw();
+				enemy->Move(player->getPosition(), &enemies);
+				if (enemy->CatchUpPlayer(player->getPosition()))
+				{
+					gameOver = true;
+					lose = true;
+				}
+			}
 		}
-
+		else
+		{
+			gameOver = true;
+			win = true;
+		}
+		
 		if (player->Moving())
 			player->Move();
 
@@ -106,7 +136,6 @@ public:
 	{
 		aim->setPosition(x, y);
 		cursor.setPosition(x, y);
-		//std::cout << x << ":" << y << std::endl;
 	}
 
 	virtual void onMouseButtonClick(FRMouseButton button, bool isReleased) 
@@ -115,24 +144,18 @@ public:
 		{
 			player->Shot(&cursor);
 		}
-		if (button == FRMouseButton::RIGHT)
-		{
-			system("cls");
-			std::cout << player->getPosition()->getX() << std::endl;
-		}
 	}
 
 	virtual void onKeyPressed(FRKey k) 
 	{
-		if (begin)
+		if (begin || gameOver)
 			return;
 		player->Move(k, 1);
-		std::cout << player->getPosition()->getX() << ":" << player->getPosition()->getY() << std::endl;
 	}
 
 	virtual void onKeyReleased(FRKey k) 
 	{
-		if (begin)
+		if (begin || gameOver)
 			return;
 		player->Move(k, 0);
 	}

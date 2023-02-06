@@ -81,7 +81,7 @@ void Enemy::Move(Position* player, std::vector<Enemy*>* enemies)
 			}
 		}
 	}
-	//position->changePosition(step_x, step_y);
+	position->changePosition(step_x, step_y);
 }
 
 bool Enemy::CatchUpPlayer(Position* player)
